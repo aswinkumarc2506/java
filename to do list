@@ -1,0 +1,115 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.ArrayList;
+
+public class TodoListApp {
+
+    private static ArrayList<String> tasks = new ArrayList<>();
+    private static JList<String> taskList;
+    private static DefaultListModel<String> listModel;
+
+    // Function to add a task
+    private static void addTask() {
+        String task = JOptionPane.showInputDialog(null, "Enter task description:", "Add Task", JOptionPane.PLAIN_MESSAGE);
+        if (task != null && !task.trim().isEmpty()) {
+            tasks.add(task);
+            updateTaskList();
+            JOptionPane.showMessageDialog(null, "Task added successfully.");
+        }
+    }
+
+    // Function to update a task
+    private static void updateTask() {
+        int selectedIndex = taskList.getSelectedIndex();
+        if (selectedIndex != -1) {
+            String newTask = JOptionPane.showInputDialog(null, "Enter new task description:", "Update Task", JOptionPane.PLAIN_MESSAGE);
+            if (newTask != null && !newTask.trim().isEmpty()) {
+                tasks.set(selectedIndex, newTask);
+                updateTaskList();
+                JOptionPane.showMessageDialog(null, "Task updated successfully.");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Select a task to update.", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    // Function to delete a task
+    private static void deleteTask() {
+        int selectedIndex = taskList.getSelectedIndex();
+        if (selectedIndex != -1) {
+            tasks.remove(selectedIndex);
+            updateTaskList();
+            JOptionPane.showMessageDialog(null, "Task deleted successfully.");
+        } else {
+            JOptionPane.showMessageDialog(null, "Select a task to delete.", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    // Function to update the task list display
+    private static void updateTaskList() {
+        listModel.clear();
+        for (String task : tasks) {
+            listModel.addElement(task);
+        }
+    }
+
+    // Main GUI setup
+    public static void main(String[] args) {
+        // Create the main frame
+        JFrame frame = new JFrame("To-Do List");
+        frame.setSize(400, 300);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLayout(new BorderLayout());
+
+        // Title label
+        JLabel titleLabel = new JLabel("To-Do List", JLabel.CENTER);
+        titleLabel.setFont(new Font("Arial", Font.PLAIN, 16));
+        frame.add(titleLabel, BorderLayout.NORTH);
+
+        // Create the task list and model
+        listModel = new DefaultListModel<>();
+        taskList = new JList<>(listModel);
+        taskList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        taskList.setFont(new Font("Arial", Font.PLAIN, 12));
+        JScrollPane scrollPane = new JScrollPane(taskList);
+        frame.add(scrollPane, BorderLayout.CENTER);
+
+        // Create button panel
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new FlowLayout());
+        frame.add(buttonPanel, BorderLayout.SOUTH);
+
+        // Buttons for Add, Update, and Delete
+        JButton addButton = new JButton("Add Task");
+        addButton.setBackground(new Color(135, 206, 235)); // Light blue
+        addButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                addTask();
+            }
+        });
+        buttonPanel.add(addButton);
+
+        JButton updateButton = new JButton("Update Task");
+        updateButton.setBackground(new Color(135, 206, 235)); // Light blue
+        updateButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                updateTask();
+            }
+        });
+        buttonPanel.add(updateButton);
+
+        JButton deleteButton = new JButton("Delete Task");
+        deleteButton.setBackground(new Color(255, 99, 71)); // Tomato red
+        deleteButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                deleteTask();
+            }
+        });
+        buttonPanel.add(deleteButton);
+
+        // Show the frame
+        frame.setVisible(true);
+    }
+}
+
