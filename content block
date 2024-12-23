@@ -1,0 +1,164 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.HashMap;
+import java.util.Map;
+
+public class ContactBookApp {
+
+    // Dictionary to store contact information
+    private static Map<String, Contact> contacts = new HashMap<>();
+
+    // Contact class to store details of each contact
+    static class Contact {
+        String phone;
+        String email;
+        String address;
+
+        Contact(String phone, String email, String address) {
+            this.phone = phone;
+            this.email = email;
+            this.address = address;
+        }
+    }
+
+    // Function to add a contact
+    private static void addContact(JFrame frame) {
+        String name = JOptionPane.showInputDialog(frame, "Enter contact name:");
+        if (name != null && !name.trim().isEmpty()) {
+            String phone = JOptionPane.showInputDialog(frame, "Enter phone number:");
+            String email = JOptionPane.showInputDialog(frame, "Enter email address:");
+            String address = JOptionPane.showInputDialog(frame, "Enter address:");
+            contacts.put(name, new Contact(phone, email, address));
+            JOptionPane.showMessageDialog(frame, "Contact added successfully.");
+        }
+    }
+
+    // Function to view all contacts
+    private static void viewContacts(JFrame frame) {
+        if (contacts.isEmpty()) {
+            JOptionPane.showMessageDialog(frame, "No contacts available.");
+        } else {
+            StringBuilder contactList = new StringBuilder();
+            for (Map.Entry<String, Contact> entry : contacts.entrySet()) {
+                contactList.append("Name: ").append(entry.getKey()).append(", Phone: ").append(entry.getValue().phone).append("\n");
+            }
+            JOptionPane.showMessageDialog(frame, contactList.toString());
+        }
+    }
+
+    // Function to search for a contact
+    private static void searchContact(JFrame frame) {
+        String search = JOptionPane.showInputDialog(frame, "Enter name or phone number to search:");
+        if (search != null && !search.trim().isEmpty()) {
+            boolean found = false;
+            for (Map.Entry<String, Contact> entry : contacts.entrySet()) {
+                if (search.equals(entry.getKey()) || search.equals(entry.getValue().phone)) {
+                    JOptionPane.showMessageDialog(frame, "Name: " + entry.getKey() + "\nPhone: " + entry.getValue().phone +
+                            "\nEmail: " + entry.getValue().email + "\nAddress: " + entry.getValue().address);
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                JOptionPane.showMessageDialog(frame, "Contact not found.");
+            }
+        }
+    }
+
+    // Function to update a contact
+    private static void updateContact(JFrame frame) {
+        String name = JOptionPane.showInputDialog(frame, "Enter the name of the contact to update:");
+        if (name != null && contacts.containsKey(name)) {
+            String phone = JOptionPane.showInputDialog(frame, "Enter new phone number:");
+            String email = JOptionPane.showInputDialog(frame, "Enter new email address:");
+            String address = JOptionPane.showInputDialog(frame, "Enter new address:");
+            contacts.put(name, new Contact(phone, email, address));
+            JOptionPane.showMessageDialog(frame, "Contact updated successfully.");
+        } else {
+            JOptionPane.showMessageDialog(frame, "Contact not found.");
+        }
+    }
+
+    // Function to delete a contact
+    private static void deleteContact(JFrame frame) {
+        String name = JOptionPane.showInputDialog(frame, "Enter the name of the contact to delete:");
+        if (name != null && contacts.containsKey(name)) {
+            contacts.remove(name);
+            JOptionPane.showMessageDialog(frame, "Contact deleted successfully.");
+        } else {
+            JOptionPane.showMessageDialog(frame, "Contact not found.");
+        }
+    }
+
+    // Main GUI setup
+    public static void main(String[] args) {
+        // Create the main frame
+        JFrame frame = new JFrame("Contact Book");
+        frame.setSize(300, 250);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLayout(new FlowLayout());
+
+        // Set background color
+        frame.getContentPane().setBackground(new Color(240, 248, 255));
+
+        // Buttons for Add, View, Search, Update, Delete, Exit
+        JButton addButton = new JButton("Add Contact");
+        addButton.setBackground(new Color(135, 206, 235)); // Light blue
+        addButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                addContact(frame);
+            }
+        });
+        frame.add(addButton);
+
+        JButton viewButton = new JButton("View Contacts");
+        viewButton.setBackground(new Color(135, 206, 235)); // Light blue
+        viewButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                viewContacts(frame);
+            }
+        });
+        frame.add(viewButton);
+
+        JButton searchButton = new JButton("Search Contact");
+        searchButton.setBackground(new Color(135, 206, 235)); // Light blue
+        searchButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                searchContact(frame);
+            }
+        });
+        frame.add(searchButton);
+
+        JButton updateButton = new JButton("Update Contact");
+        updateButton.setBackground(new Color(135, 206, 235)); // Light blue
+        updateButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                updateContact(frame);
+            }
+        });
+        frame.add(updateButton);
+
+        JButton deleteButton = new JButton("Delete Contact");
+        deleteButton.setBackground(new Color(255, 99, 71)); // Tomato red
+        deleteButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                deleteContact(frame);
+            }
+        });
+        frame.add(deleteButton);
+
+        JButton exitButton = new JButton("Exit");
+        exitButton.setBackground(new Color(255, 99, 71)); // Tomato red
+        exitButton.setForeground(Color.WHITE);
+        exitButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+        frame.add(exitButton);
+
+        // Show the frame
+        frame.setVisible(true);
+    }
+}
