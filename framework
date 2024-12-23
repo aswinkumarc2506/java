@@ -1,0 +1,17 @@
+This project uses Java Swing as its framework for creating the graphical user interface (GUI). Java Swing is part of the Java Foundation Classes (JFC), and it provides a set of GUI components (like buttons, text fields, labels, etc.) for building desktop applications.
+
+Key Points about Java Swing in this Project:
+Swing Components:
+
+JFrame: This is the main window that holds all other components like buttons, labels, etc.
+JButton: These are used to create interactive buttons (for adding, updating, deleting contacts, etc.).
+JOptionPane: A Swing class used to create input dialogs, message boxes, and confirmation dialogs. It is used for gathering user input and displaying results.
+JPanel: A container for organizing and grouping components like buttons.
+FlowLayout: A layout manager used for arranging components in a left-to-right flow.
+Event Handling:
+
+ActionListener: This is used to handle events (like button clicks). For example, when a user clicks the "Add Contact" button, it triggers an action to add a contact to the contact book.
+Why Swing?
+Platform Independence: Since Swing is part of the standard Java library, applications built with Swing can run on any platform that supports Java (Windows, macOS, Linux, etc.).
+Lightweight: Swing components are more flexible and customizable compared to the older Abstract Window Toolkit (AWT), making it ideal for creating modern GUIs.
+Rich Set of Components: Swing offers a wide range of built-in GUI components like buttons, text fields, labels, tables, etc., which makes it suitable for desktop applications like this contact book.
